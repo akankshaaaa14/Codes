@@ -23,6 +23,7 @@ int kSorted(vector<vector<int>> &a, int k, int n) {
     int mini = INT_MAX, maxi = INT_MIN;
     priority_queue<node*, vector<node*>, compare >minHeap;
 
+//create a min heap for starting elemnt of each list and track mini/max value
     for(int i=0; i<k; i++){
         int element = a[i][0];
         mini = min(mini, element);
@@ -31,22 +32,25 @@ int kSorted(vector<vector<int>> &a, int k, int n) {
     }
 
     int start = mini, end = maxi;
-
+//process ranges
     while(!minHeap.empty()){
+//mini fetch
         node* temp = minHeap.top();
         minHeap.pop();
         mini = temp -> data;
     
-
+//range or answer updation
     if(maxi - mini < end - start){
         start = mini;
         end = maxi;
     }
 
+//next element exists
     if(temp-> col + 1 < n){
         maxi = max(maxi, a[temp-> row][temp -> col+1]);
         minHeap.push(new node(a[temp-> row][temp -> col+1], temp -> row, temp -> col+1));
     } else {
+//next element does not exists
         break;
     }
     }
